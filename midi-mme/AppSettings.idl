@@ -1,0 +1,22 @@
+//
+//  AppSettings.idl
+//  MidiPipeBridge
+//
+//  created by yu2924 on 2024-09-13
+//
+
+namespace MidiPipeBridge
+{
+	runtimeclass AppSettings
+	{
+		AppSettings(Microsoft.UI.Dispatching.DispatcherQueue dispqueue);
+		void SaveIfNeeded();
+		Boolean HasProperty(String propname);
+		Boolean Topmost{ get; set; };
+		Windows.Graphics.PointInt32 WindowPosition{ get; set; };
+		String PipeName{ get; set; };
+		Boolean RunAsServer{ get; set; };
+		String MidiInDeviceName{ get; set; };
+		String MidiOutDeviceName{ get; set; };
+	}
+}

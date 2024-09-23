@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Window
+    x:Class="MidiPipeBridge.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MidiPipeBridge"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Title="MidiPipeBridge (MME)"
+    Closed="OnWindowClosed">
+    <StackPanel Orientation="Vertical" Padding="8">
+        <StackPanel.Resources>
+            <DataTemplate x:Key="MidiDeviceInfoTemplate" x:DataType="local:MidiDeviceInfo">
+                <TextBlock Text="{x:Bind DeviceName}" />
+            </DataTemplate>
+        </StackPanel.Resources>
+        <!-- topmost -->
+        <CheckBox Content="Topmost" Margin="8,0"
+                  IsChecked="{x:Bind Topmost, Mode=TwoWay}" />
+        <!-- pipe name -->
+        <StackPanel Orientation="Horizontal" Margin="8,8">
+            <StackPanel Orientation="Vertical">
+                <RelativePanel Width="240" Height="20" HorizontalAlignment="Left">
+                    <TextBlock Text="Pipe Name" />
+                    <FontIcon Glyph="&#xED2E;" Foreground="Red" RelativePanel.AlignRightWithPanel="True"
+                              Visibility="{x:Bind Model.PipeError.Visibility, Mode=OneWay}"
+                              ToolTipService.ToolTip="{x:Bind Model.PipeError.Message, Mode=OneWay}"
+                              DoubleTapped="OnPipeErrorIndicatorDoubleTapped" />
+                </RelativePanel>
+                <TextBox VerticalAlignment="Bottom" Width="240"
+                         ToolTipService.ToolTip="The pipe name must have the following form:&#xa;&quot;\\.\pipe\pipename&quot;"
+                         Text="{x:Bind Model.PipeName, Mode=TwoWay}"
+                         IsEnabled="{x:Bind Model.IsDisconnected, Mode=OneWay}" />
+            </StackPanel>
+            <ToggleButton Margin="8,0,0,0" VerticalAlignment="Bottom" Content="Connect"
+                          IsChecked="{x:Bind Model.IsConnecting, Mode=TwoWay}" />
+        </StackPanel>
+        <!-- pipe mode -->
+        <CheckBox Content="Run as Server" Margin="8,0"
+                  IsChecked="{x:Bind Model.RunAsServer, Mode=TwoWay}"
+                  IsEnabled="{x:Bind Model.IsDisconnected, Mode=OneWay}" />
+        <!-- midi input -->
+        <StackPanel Orientation="Vertical" Margin="8,8">
+            <RelativePanel Width="240" Height="20" HorizontalAlignment="Left">
+                <TextBlock Text="MIDI Input" />
+                <FontIcon Glyph="&#xED2E;" Foreground="Red" RelativePanel.AlignRightWithPanel="True"
+                          Visibility="{x:Bind Model.MidiInError.Visibility, Mode=OneWay}"
+                          ToolTipService.ToolTip="{x:Bind Model.MidiInError.Message, Mode=OneWay}"
+                          DoubleTapped="OnMidiInErrorIndicatorDoubleTapped" />
+            </RelativePanel>
+            <StackPanel Orientation="Horizontal">
+                <local:NoWheelComboBox Width="240"
+                      ItemTemplate="{StaticResource MidiDeviceInfoTemplate}"
+                      ItemsSource="{x:Bind Model.MidiInDeviceInfoList}"
+                      SelectedValue="{x:Bind Model.MidiInDeviceInfo, Mode=TwoWay}" />
+                <Button Margin="8,0,0,0" ToolTipService.ToolTip="Export device list as CSV"
+                        Click="OnMidiInExportButtonClick">
+                    <FontIcon Glyph="&#xEDE1;" />
+                </Button>
+            </StackPanel>
+        </StackPanel>
+        <!-- midi output -->
+        <StackPanel Orientation="Vertical" Margin="8,8">
+            <RelativePanel Width="240" Height="20" HorizontalAlignment="Left">
+                <TextBlock Text="MIDI Output" />
+                <FontIcon Glyph="&#xED2E;" Foreground="Red" RelativePanel.AlignRightWithPanel="True"
+                          Visibility="{x:Bind Model.MidiOutError.Visibility, Mode=OneWay}"
+                          ToolTipService.ToolTip="{x:Bind Model.MidiOutError.Message, Mode=OneWay}"
+                          DoubleTapped="OnMidiOutErrorIndicatorDoubleTapped" />
+            </RelativePanel>
+            <StackPanel Orientation="Horizontal">
+                <local:NoWheelComboBox Width="240"
+                        ItemTemplate="{StaticResource MidiDeviceInfoTemplate}"
+                        ItemsSource="{x:Bind Model.MidiOutDeviceInfoList}"
+                        SelectedValue="{x:Bind Model.MidiOutDeviceInfo, Mode=TwoWay}" />
+                <Button Margin="8,0,0,0" ToolTipService.ToolTip="Export device list as CSV"
+                        Click="OnMidiOutExportButtonClick">
+                    <FontIcon Glyph="&#xEDE1;" />
+                </Button>
+            </StackPanel>
+        </StackPanel>
+        
+    </StackPanel>
+</Window>

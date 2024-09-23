@@ -1,0 +1,30 @@
+//
+//  MainModel.idl
+//  MidiPipeBridge
+//
+//  created by yu2924 on 2024-08-25
+//
+
+import "AppSettings.idl";
+import "MidiDeviceInfo.idl";
+import "ResultError.idl";
+
+namespace MidiPipeBridge
+{
+	runtimeclass MainModel : Microsoft.UI.Xaml.Data.INotifyPropertyChanged
+	{
+		MainModel(Microsoft.UI.Dispatching.DispatcherQueue dispqueue, MidiPipeBridge.AppSettings settings);
+		void Shutdown();
+		String PipeName{ get; set; };
+		Boolean RunAsServer{ get; set; };
+		Boolean IsConnecting{ get; set; };
+		Boolean IsDisconnected{ get; };
+		MidiDeviceInfo MidiInDeviceInfo{ get; set; };
+		MidiDeviceInfo MidiOutDeviceInfo{ get; set; };
+		Windows.Foundation.Collections.IObservableVector<MidiDeviceInfo> MidiInDeviceInfoList{ get; };
+		Windows.Foundation.Collections.IObservableVector<MidiDeviceInfo> MidiOutDeviceInfoList{ get; };
+		ResultError PipeError{ get; };
+		ResultError MidiInError{ get; };
+		ResultError MidiOutError{ get; };
+	}
+}

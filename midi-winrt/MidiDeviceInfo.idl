@@ -1,0 +1,19 @@
+//
+//  MidiDeviceInfo.idl
+//  MidiPipeBridge
+//
+//  created by yu2924 on 2024-09-03
+//
+
+namespace MidiPipeBridge
+{
+	runtimeclass MidiDeviceInfo : Microsoft.UI.Xaml.Data.INotifyPropertyChanged
+	{
+		MidiDeviceInfo(String vname, String vpname, String vdevid);
+		String Name{ get; set; };
+		String ParentName{ get; set; };
+		String DeviceId{ get; set; };
+		static MidiDeviceInfo NoneMidiDeviceInfo();
+		static Boolean IsValidId(String devid);
+	}
+}

@@ -1,0 +1,25 @@
+//
+//  MainWindow.idl
+//  MidiPipeBridge
+//
+//  created by yu2924 on 2024-09-09
+//
+
+import "MainModel.idl";
+import "AppSettings.idl";
+
+namespace MidiPipeBridge
+{
+	[default_interface]
+	runtimeclass MainWindow : Microsoft.UI.Xaml.Window
+	{
+		MainWindow();
+		MainModel Model{ get; };
+		Boolean Topmost{ get; set; };
+	}
+	[default_interface]
+	runtimeclass NoWheelComboBox : Microsoft.UI.Xaml.Controls.ComboBox
+	{
+		NoWheelComboBox();
+	}
+}

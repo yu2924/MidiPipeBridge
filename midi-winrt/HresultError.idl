@@ -1,0 +1,18 @@
+//
+//  HresultError.idl
+//  MidiPipeBridge
+//
+//  created by yu2924 on 2024-09-03
+//
+
+namespace MidiPipeBridge
+{
+	runtimeclass HresultError : Microsoft.UI.Xaml.Data.INotifyPropertyChanged
+	{
+		HresultError();
+		void Reset();
+		Int32 Code{ get; set; };
+		String Message{ get; };
+		Microsoft.UI.Xaml.Visibility Visibility{ get; };
+	}
+}

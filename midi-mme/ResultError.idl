@@ -1,0 +1,25 @@
+//
+//  ResultError.idl
+//  MidiPipeBridge
+//
+//  created by yu2924 on 2024-09-03
+//
+
+namespace MidiPipeBridge
+{
+	enum ResultType
+	{
+		ResultTypeCom,
+		ResultTypeMidiIn,
+		ResultTypeMidiOut,
+	};
+	runtimeclass ResultError : Microsoft.UI.Xaml.Data.INotifyPropertyChanged
+	{
+		ResultError(ResultType rt);
+		void Reset();
+		Boolean IsError{ get; };
+		Int32 Code{ get; set; };
+		String Message{ get; };
+		Microsoft.UI.Xaml.Visibility Visibility{ get; };
+	}
+}
