@@ -32,7 +32,7 @@ Initially, I tried using the WinRT MIDI API, but found some problems, so I wrote
 
 | API | pros | cons |
 |--|--|--|
-| WinRT MIDI | * modern and easy to use<br>* hot plugging supported🙂 | * device names are difficult to identify<br>* some devices are not listed😡 |
+| WinRT MIDI | * modern and easy to use<br>* hot plugging supported🙂 | * device names are difficult to identify<br>* non-MIDI devices are mistakenly listed<br>* some devices are not listed😡 |
 | MME MIDI | easily identifiable device names | does not support hot plugging |
 
 ## Requirement
