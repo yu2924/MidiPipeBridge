@@ -219,13 +219,12 @@ namespace winrt::MidiPipeBridge::implementation
 				if(MMResultIsError(r)) throw r;
 				for(int c = NumMidiBuffers, i = 0; i < c; ++i)
 				{
-					std::unique_ptr<MIDIHDREX> p = std::make_unique<MIDIHDREX>();
-					hdrList.push_back(std::move(p));
-					MIDIHDREX* hdr = hdrList.back().get();
+					std::unique_ptr<MIDIHDREX> hdr = std::make_unique<MIDIHDREX>();
 					hdr->Initialize();
-					r = midiOutPrepareHeader(hMidiOut, hdr, sizeof(MIDIHDR));
+					r = midiOutPrepareHeader(hMidiOut, hdr.get(), sizeof(MIDIHDR));
 					if(MMResultIsError(r)) throw r;
-					freeList.push_back(hdr);
+					freeList.push_back(hdr.get());
+					hdrList.push_back(std::move(hdr));
 				}
 			}
 			catch(...)
@@ -356,13 +355,12 @@ namespace winrt::MidiPipeBridge::implementation
 				if(MMResultIsError(r)) throw r;
 				for(int c = NumMidiBuffers, i = 0; i < c; ++i)
 				{
-					std::unique_ptr<MIDIHDREX> p = std::make_unique<MIDIHDREX>();
-					hdrList.push_back(std::move(p));
-					MIDIHDREX* hdr = hdrList.back().get();
+					std::unique_ptr<MIDIHDREX> hdr = std::make_unique<MIDIHDREX>();
 					hdr->Initialize();
-					r = midiInPrepareHeader(hMidiIn, hdr, sizeof(MIDIHDR));
+					r = midiInPrepareHeader(hMidiIn, hdr.get(), sizeof(MIDIHDR));
 					if(MMResultIsError(r)) throw r;
-					r = midiInAddBuffer(hMidiIn, hdr, sizeof(MIDIHDR));
+					hdrList.push_back(std::move(hdr));
+					r = midiInAddBuffer(hMidiIn, hdrList.back().get(), sizeof(MIDIHDR));
 					if(MMResultIsError(r)) throw r;
 				}
 			}
