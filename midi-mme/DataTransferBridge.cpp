@@ -255,7 +255,7 @@ namespace winrt::MidiPipeBridge::implementation
 				}
 				int lseg = std::min((int)sizeof(hdr->exbuffer), c - i);
 				memcpy(hdr->lpData, p + i, lseg);
-				hdr->dwBufferLength = hdr->dwBytesRecorded = c - i;
+				hdr->dwBufferLength = hdr->dwBytesRecorded = lseg;
 				MMRESULT r = midiOutLongMsg(hMidiOut, hdr, sizeof(MIDIHDR));
 				if(MMResultIsError(r)) return r;
 				i += lseg;
@@ -431,14 +431,12 @@ namespace winrt::MidiPipeBridge::implementation
 			{
 				if(quitFlag || FAILED(pipeError) || MMResultIsError(deviceError)) break;
 				int cr = 0;
-				buffer.resize(buffer.capacity());
-				if(!ReadPipeOverlapped(buffer.data(), (int)buffer.capacity(), &cr))
+				if(!ReadPipeOverlapped(buffer.data(), (int)buffer.size(), &cr))
 				{
 					if(NeedToReportPipeError(pipeError, isServer)) { if(OnPipeError) OnPipeError(pipeError); }
 					break;
 				}
-				buffer.resize(cr);
-				deviceError = midiOutPort.Send(buffer);
+				deviceError = midiOutPort.Send(buffer.data(), cr);
 				if(MMResultIsError(deviceError))
 				{
 					if(OnDeviceError) OnDeviceError(deviceError);
